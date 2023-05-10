@@ -12,6 +12,8 @@ contract MyERC1155 is ERC1155, Ownable, Pausable, ERC1155Burnable, ERC1155Supply
     
     mapping (uint256 => string) private _tokenURIs;
 
+    event TokenMinted(address indexed account, uint256 indexed tokenId, uint256 amount);
+
     constructor() ERC1155("") {}
 
     function setURI(string memory newuri) public onlyOwner {
@@ -40,6 +42,7 @@ contract MyERC1155 is ERC1155, Ownable, Pausable, ERC1155Burnable, ERC1155Supply
         onlyOwner
     {
         _mint(account, id, amount, data);
+        emit TokenMinted(account, id, amount);
     }
 
     function mintBatch(address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data)
